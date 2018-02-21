@@ -1,5 +1,4 @@
 {
-	"private": true,
 	"name": "@foko/xlsx",
 	"version": "0.8.14",
 	"author": "sheetjs",
