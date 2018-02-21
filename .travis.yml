@@ -2,21 +2,11 @@ language: node_js
 node_js:
 - 6
 - 8
-# before_install:
-# - npm install -g mocha
-# - npm install blanket
-# - npm install xlsjs
-# - npm install coveralls mocha-lcov-reporter
-# before_script:
-# - make init
-# - cd test_files; make all; cd -
-# after_success:
-# - make coveralls-spin
 deploy:
   provider: npm
   email: aws@foko.co
   api_key:
-    secure: enCQkM03FYFhlficOnt+7Slk1JBi7Uxq/qbXYdEED6cSLFEF/Di7TrQ8JDfjlTHv/D418w85kcPU0+4guPnbryp9EsVnJKLIw3JRcNZTEeDB+9n4f7gp9CKD6tglHQJzHeWJBUquDJd7Y3gupNyddbevmtVQd4yfwvVdExhyiJiPGN+uy3OBne27L3GgdqCmDWTvzcWMO6BaDsT8hRdyGcAjYoWgnH5syN+p9phQuyFKN/u52T5H10zNjLfXebv0nRXmqqNGNb6Sidd+iU0S6TWnNvv7OCWk7XBH/48PRVraez4M0MEYXnGmc6+hAf6StLwvjHq7ELR1mSFUTQ6MDR7/5dbANWLqreRDFQZav6REjI4PwhETsLfuaB5OMiEemxUwx985IQXwV7AhroYr7ytWI1L2WjYy9IWpwtsZ6a0cmJC2sG8CaIg+8AP0fhVhog1/49Nhb87bK/uZU1obvjR6fpi3RnypIiefMXVk4J6yo7Icub9t+jN0NQ2AVmn5QQ/Z2TLMol8y/JhYdo7a/A5ur0fTZniAOy4Y5ebd2Xv+vbggICO4a4MO9T2rtMIp2GyDyEfEb1uCHilimMtR4EQYxAxewtvQNuUeMOb3+vCzO7m1FQPgzhpUr7bNjGSvOfnIVKOgmDtcGfkavwwYT52rlxMCS3RN64RfhGhnu3k=
+    secure: Oi0ZsVfK3F2IBwWGG9iq9D0BqkrgAE5vgctLtDcF3NwovPpamJzWuzTEYdv5Ke1QT/dYDpuvglJ2ruwVbtcjQqNMBvXGyhofgK4t3A3cXrQ1eDAOFrb7tQGt5J1K3vz+TMKu5KkblWstPc+jtdXlGfIUj8/fFsva8PEbI+kwLj6vI4LO8/e3W1ZHbq5jCoY5vT1lcV56HpPP1FE+rAiJR6eMGcpeW2M/a/zFxqQ8HFhqUrhxZ1sB4VV1LqCrhqNgF0mIeO47QCeUSAwqkOh73B862VVfYoVT9ON9pKwmwqnI3c44/tbe45obUl4hveVAr8wwErTVRYYcl9jNJkrLIwbBf4425dVepVPocL80vDXew3+lrg7WxkU08Io6Lz3ZGF/u/ot7qeks8qhyQz9pkV2WNDnqx//EoRfobPSwXeHypJdzGfZ/abBNN+IGj3/Y4+loFJLQjRuQSLZh3TfshYPtON57XpYMcMmXpfhKn7Ak0lUYNnVSC9UngnS+q7rob3IIWTxK5ysQQY5dnGsMV4GeUKBQmaCiluz8v5GAkncdY0/2Ua4qH1l4Oy1F9vbbhjT1ecJgf1YF+FZgWVFf7D/Uc/j+ARPVUCXU7eIcgsy2QYaxkf7h9+Zw7upcJuxDD/3j7xVTeQoaumItNhuemvqtOtf8lB9x1fUzeVnQREg=
   on:
     tags: true
     repo: FoKo/js-xlsx
