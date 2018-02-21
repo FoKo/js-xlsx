@@ -1,16 +1,23 @@
 language: node_js
 node_js:
-  - "iojs"
-  - "0.11.14"
-  - "0.10"
-#  - "0.8" # commented because of npm issue with camelcase
+- iojs
+- 0.11.14
+- '0.10'
 before_install:
-  - "npm install -g mocha"
-  - "npm install blanket"
-  - "npm install xlsjs"
-  - "npm install coveralls mocha-lcov-reporter"
+- npm install -g mocha
+- npm install blanket
+- npm install xlsjs
+- npm install coveralls mocha-lcov-reporter
 before_script:
-  - "make init"
-  - "cd test_files; make all; cd -" 
+- make init
+- cd test_files; make all; cd -
 after_success:
-  - "make coveralls-spin"
+- make coveralls-spin
+deploy:
+  provider: npm
+  email: aws@foko.co
+  api_key:
+    secure: enCQkM03FYFhlficOnt+7Slk1JBi7Uxq/qbXYdEED6cSLFEF/Di7TrQ8JDfjlTHv/D418w85kcPU0+4guPnbryp9EsVnJKLIw3JRcNZTEeDB+9n4f7gp9CKD6tglHQJzHeWJBUquDJd7Y3gupNyddbevmtVQd4yfwvVdExhyiJiPGN+uy3OBne27L3GgdqCmDWTvzcWMO6BaDsT8hRdyGcAjYoWgnH5syN+p9phQuyFKN/u52T5H10zNjLfXebv0nRXmqqNGNb6Sidd+iU0S6TWnNvv7OCWk7XBH/48PRVraez4M0MEYXnGmc6+hAf6StLwvjHq7ELR1mSFUTQ6MDR7/5dbANWLqreRDFQZav6REjI4PwhETsLfuaB5OMiEemxUwx985IQXwV7AhroYr7ytWI1L2WjYy9IWpwtsZ6a0cmJC2sG8CaIg+8AP0fhVhog1/49Nhb87bK/uZU1obvjR6fpi3RnypIiefMXVk4J6yo7Icub9t+jN0NQ2AVmn5QQ/Z2TLMol8y/JhYdo7a/A5ur0fTZniAOy4Y5ebd2Xv+vbggICO4a4MO9T2rtMIp2GyDyEfEb1uCHilimMtR4EQYxAxewtvQNuUeMOb3+vCzO7m1FQPgzhpUr7bNjGSvOfnIVKOgmDtcGfkavwwYT52rlxMCS3RN64RfhGhnu3k=
+  on:
+    tags: true
+    repo: FoKo/js-xlsx
