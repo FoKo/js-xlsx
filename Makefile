@@ -30,10 +30,7 @@ clean-data:
 
 .PHONY: init
 init:
-	git submodule init
-	git submodule update
-	git submodule foreach git pull origin master
-	git submodule foreach make
+	npm run pretest
 
 
 .PHONY: test mocha
