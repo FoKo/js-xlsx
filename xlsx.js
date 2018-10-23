@@ -11983,6 +11983,58 @@ function sheet_to_formulae(sheet) {
 	return cmds;
 }
 
+function sheet_add_json(_ws, js, opts) {
+	var o = opts || {};
+	var offset = +!o.skipHeader;
+	var ws = _ws || ({});
+	var _R = 0, _C = 0;
+	if(ws && o.origin != null) {
+		if(typeof o.origin == 'number') _R = o.origin;
+		else {
+			var _origin = typeof o.origin == "string" ? decode_cell(o.origin) : o.origin;
+			_R = _origin.r; _C = _origin.c;
+		}
+	}
+	var cell;
+	var range = ({s: {c:0, r:0}, e: {c:_C, r:_R + js.length - 1 + offset}});
+	if(ws['!ref']) {
+		var _range = safe_decode_range(ws['!ref']);
+		range.e.c = Math.max(range.e.c, _range.e.c);
+		range.e.r = Math.max(range.e.r, _range.e.r);
+		if(_R == -1) { _R = range.e.r + 1; range.e.r = _R + js.length - 1 + offset; }
+	}
+	var hdr = o.header || [], C = 0;
+
+	js.forEach(function (JS, R) {
+		keys(JS).forEach(function(k) {
+			if((C=hdr.indexOf(k)) == -1) hdr[C=hdr.length] = k;
+			var v = JS[k];
+			var t = 'z';
+			var z = "";
+			if(v && typeof v === 'object' && !(v instanceof Date)){
+				ws[encode_cell({c:_C + C,r:_R + R + offset})] = v;
+			} else {
+				if(typeof v == 'number') t = 'n';
+				else if(typeof v == 'boolean') t = 'b';
+				else if(typeof v == 'string') t = 's';
+				else if(v instanceof Date) {
+					t = 'd';
+					if(!o.cellDates) { t = 'n'; v = datenum(v); }
+					z = o.dateNF || SSF._table[14];
+				}
+				ws[encode_cell({c:_C + C,r:_R + R + offset})] = cell = ({t:t, v:v});
+				if(z) cell.z = z;
+			}
+		});
+	});
+	range.e.c = Math.max(range.e.c, _C + hdr.length - 1);
+	var __R = encode_row(_R);
+	if(offset) for(C = 0; C < hdr.length; ++C) ws[encode_col(C + _C) + __R] = {t:'s', v:hdr[C]};
+	ws['!ref'] = encode_range(range);
+	return ws;
+}
+function json_to_sheet(js, opts) { return sheet_add_json(null, js, opts); }
+
 var utils = {
 	encode_col: encode_col,
 	encode_row: encode_row,
@@ -11998,10 +12050,22 @@ var utils = {
 	make_csv: sheet_to_csv,
 	make_json: sheet_to_json,
 	make_formulae: sheet_to_formulae,
+	json_to_sheet: json_to_sheet,
 	sheet_to_csv: sheet_to_csv,
 	sheet_to_json: sheet_to_json,
 	sheet_to_formulae: sheet_to_formulae,
 	sheet_to_row_object_array: sheet_to_row_object_array
+};
+
+/* add a worksheet to the end of a given workbook */
+utils.book_append_sheet = function(wb, ws, name) {
+	if(!name) for(var i = 1; i <= 0xFFFF; ++i) if(wb.SheetNames.indexOf(name = "Sheet" + i) == -1) break;
+	if(!name) throw new Error("Too many worksheets");
+	// check_ws_name(name);
+	if(wb.SheetNames.indexOf(name) >= 0) throw new Error("Worksheet with name |" + name + "| already exists!");
+
+	wb.SheetNames.push(name);
+	wb.Sheets[name] = ws;
 };
 
 
